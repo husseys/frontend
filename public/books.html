@@ -28,9 +28,6 @@
                     <a class="nav-link" href="show-book.html">Search for a Book</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="show-author.html">Search for an Author</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="update-book.html">Update a Book</a>
                 </li>
                 <li class="nav-item">
@@ -48,6 +45,57 @@
 <center><h2>Below Are All Of The Books In Sean's Library</h2></center>
 <br>
 
+<div class="container" id = "output">
+
+</div>
+
+<script>
+function CreateTable(data){
+    console.log(data)
+   let table =
+        '<table class="table table-bordered table-hover"> \n' +
+        '   <thead>\n' +
+        '       <tr>\n' +
+        '           <th scope="col">Title</th> \n'+
+        '           <th scope="col">Descritpion</th> \n'+
+        '           <th scope="col">Author</th> \n'+
+        '           <th scope="col">Year</th> \n'+
+        '           <th scope="col">Hardcover</th> \n'+
+        '           <th scope="col">Price</th> \n'+
+        '       </tr>\n' +
+        '   </thead>\n' +
+        '   <tbody>\n';
+
+    for (let book in data){
+        table +=
+            '       <tr>\n' +
+            '           <td>' + data[book]["title"]+  '</td>\n' +
+            '           <td>' + data[book]["description"]+  '</td>\n' +
+            '           <td>' + data[book]["author"]+  '</td>\n' +
+            '           <td>' + data[book]["year"]+  '</td>\n' +
+            '           <td>' + data[book]["hardCover"]+  '</td>\n' +
+            '            <td>' + data[book]["price"]+  '</td>\n' +
+            '       </tr>\n';
+    }
+
+    table +=
+        '   </tbody>\n' +
+        '</table>\n'
+    return table;
+}
+window.onload=() =>{
+    let url = "http://localhost:3000/api/books"
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function (){
+        if (this.readyState == 4 && this.status == 200){
+            document.getElementById("output").innerHTML =
+                CreateTable(JSON.parse(this.responseText));
+        }
+    };
+    xhttp.open('GET', url, true);
+    xhttp.send();
+};
+</script>
 
 
 </body>
