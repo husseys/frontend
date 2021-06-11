@@ -44,43 +44,40 @@
 <center><h2>Please Input A Book ID Whose Information You Would Like To Display</h2></center>
 <br>
 
+
 <div class="container">
-    <!-- fix the action -->
-    <form method="GET" action="/api/books/:id">
+        <form>
         <div class="form-group">
             <input type="ObjectID" class="form-control" id="bookID" name="id" placeholder="00">
         </div>
         <br>
         <div class="form-group">
-            <button class="btn btn-primary" id='viewBook'>Submit</button>
+            <center><button class="btn btn-primary" id='buttonID'>Submit</button></center>
         </div>
     </form>
 </div>
+
 <script>
-    document.getElementById("bookID").addEventListener("click", (event) =>{
-        let url = "http://localhost:3000/api/books"
+    document.getElementById("buttonID").addEventListener("click", (event) =>{
+        let bookID = document.getElementById("bookID").value
+        let url = "https://fierce-forest-39595.herokuapp.com/api/books"
         let xhttp = new XMLHttpRequest();
+        
         xhttp.onreadystatechange = function (){
-            if (xhttp.readyState === XMLHttpRequest.DONE) {
-                var status = xhttp.status;
+            var status = this.status;
+            console.log(status);
+            if (this.readyState === XMLHttpRequest.DONE) {
+                
                 if (status === 0 || (status >= 200 && status < 400)) {
                     // The request has been completed successfully
-                    console.log(xhttp.responseText);
+                    console.log(this.responseText);
                 } else {
                     // Oh no! There has been an error with the request!
                     console.log("something went wrong");
                 }
-            }
-        };
-      
-        // let bookData = "title=" + document.getElementById("title").value + "&" +
-        //     "description=" + document.getElementById("description").value  + "&" +
-        //     "author="  + document.getElementById("author").value  + "&" +
-        //     "year="  + document.getElementById("year").value  + "&" +
-        //     "price="  + document.getElementById("price").value + "&" + 
-        //     "hardCover="  + isHardCover; 
+           }
     
-        xhttp.open('GET', url, true);
+        xhttp.open('GET', url+bookID, true);
         // Just needed to place this line AFTER opening the object
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhttp.send(bookID);
